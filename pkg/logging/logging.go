@@ -38,12 +38,12 @@ type Logger struct {
 	*logrus.Entry
 }
 
-func GetLogger() Logger {
-	return Logger{e}
+func GetLogger() *Logger {
+	return &Logger{e}
 }
 
-func (l *Logger) GetLoggerWithFeild(k string, v interface{}) Logger {
-	return Logger{l.WithField(k, v)}
+func (l *Logger) GetLoggerWithFeild(k string, v interface{}) *Logger {
+	return &Logger{l.WithField(k, v)}
 }
 
 // кастом логгер - записываем все в файлик

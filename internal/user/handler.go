@@ -8,11 +8,11 @@ import (
 )
 
 type handler struct {
-	logger logging.Logger
+	logger *logging.Logger
 }
 
 // NewHandler создаем структуру, но возвращаем интерфейс
-func NewHandler(logger logging.Logger) handlers.Handler {
+func NewHandler(logger *logging.Logger) handlers.Handler {
 	return &handler{
 		logger: logger,
 	}
