@@ -2,16 +2,20 @@ package user
 
 import (
 	"github.com/DmitriyKolesnikM8O/Practice24/internal/handlers"
+	"github.com/DmitriyKolesnikM8O/Practice24/pkg/logging"
 	"github.com/julienschmidt/httprouter"
 	"net/http"
 )
 
 type handler struct {
+	logger logging.Logger
 }
 
 // NewHandler создаем структуру, но возвращаем интерфейс
-func NewHandler() handlers.Handler {
-	return &handler{}
+func NewHandler(logger logging.Logger) handlers.Handler {
+	return &handler{
+		logger: logger,
+	}
 }
 
 const (
