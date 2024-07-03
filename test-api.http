@@ -1,0 +1,47 @@
+POST http://localhost:1234/products
+Content-Type: application/json
+
+{}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status == 201, "Response status is not 201")
+    })
+%}
+
+###
+PUT http://localhost:1234/products/1
+Content-Type: application/json
+
+{}
+
+> {%
+client.test("Request executed successfully", function () {
+    client.assert(response.status == 201, "Response status is not 201")
+})
+ %}
+
+
+###
+PATCH http://localhost:1234/products/1
+Content-Type: application/json
+
+{}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status == 204, "Response status is not 204")
+    })
+%}
+
+###
+DELETE http://localhost:1234/products/1
+Content-Type: application/json
+
+{}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status == 204, "Response status is not 204")
+    })
+%}
