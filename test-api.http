@@ -1,4 +1,4 @@
-POST http://0.0.0.0:10000/products
+POST http://127.0.0.1:1234/products
 Content-Type: application/json
 
 {}
@@ -10,7 +10,7 @@ Content-Type: application/json
 %}
 
 ###
-PUT http://0.0.0.0:10000/products/1
+PUT http://127.0.0.1:1234/products/1
 Content-Type: application/json
 
 {}
@@ -23,7 +23,7 @@ client.test("Request executed successfully", function () {
 
 
 ###
-PATCH http://0.0.0.0:10000/products/1
+PATCH http://127.0.0.1:1234/products/1
 Content-Type: application/json
 
 {}
@@ -35,7 +35,7 @@ Content-Type: application/json
 %}
 
 ###
-DELETE http://0.0.0.0:10000/products/1
+DELETE http://127.0.0.1:1234/products/1
 Content-Type: application/json
 
 {}

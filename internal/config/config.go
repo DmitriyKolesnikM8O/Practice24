@@ -13,25 +13,29 @@ type Config struct {
 		BindIP string `yaml:"bind_ip" env-default:"127.0.0.1"`
 		Port   string `yaml:"port" env-default:"8080"`
 	} `yaml:"listen"`
+	MongoDB struct {
+		Host       string `json:"host"`
+		Port       string `json:"port"`
+		Database   string `json:"database"`
+		Auth       string `json:"auth"`
+		Username   string `json:"username"`
+		Password   string `json:"password"`
+		Collection string `json:"collection"`
+	} `json:"mongodb"`
 }
 
-// сигнтон
+// сигнлтон
 var instance *Config
 
 // примитив once, чтобы единожды распарсить
 var once sync.Once
 
 func GetConfig() *Config {
-	//ровно 1 раз выполниться
 	once.Do(func() {
 		logger := logging.GetLogger()
-		logger.Info("reading config")
+		logger.Info("read application configuration")
 		instance = &Config{}
-
-		//читаем и записываем конфиг
-		err := cleanenv.ReadConfig("config.yml", instance)
-		if err != nil {
-			//выводим, что происходит не так
+		if err := cleanenv.ReadConfig("config.yml", instance); err != nil {
 			help, _ := cleanenv.GetDescription(instance, nil)
 			logger.Info(help)
 			logger.Fatal(err)
