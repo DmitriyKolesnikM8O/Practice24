@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 	"github.com/DmitriyKolesnikM8O/Practice24/internal/config"
+	product2 "github.com/DmitriyKolesnikM8O/Practice24/internal/product"
 	"github.com/DmitriyKolesnikM8O/Practice24/internal/product/db"
-	"github.com/DmitriyKolesnikM8O/Practice24/internal/user"
 	"github.com/DmitriyKolesnikM8O/Practice24/pkg/client/postgres"
 	"github.com/DmitriyKolesnikM8O/Practice24/pkg/logging"
 	"github.com/julienschmidt/httprouter"
@@ -25,21 +25,35 @@ func main() {
 
 	cfg := config.GetConfig()
 
+	logger.Info("Connect to postgres")
 	postgreSQLClient, err := postgresql.NewClient(context.TODO(), 3, cfg.Storage)
 	if err != nil {
 		logger.Fatal(err)
 	}
 	repository := product.NewRepository(postgreSQLClient, logger)
 
-	//test
-	all, err := repository.FindAll(context.TODO())
-	if err != nil {
-		logger.Fatal(err)
-	}
+	logger.Info("register product handler")
+	productHandler := product2.NewHandler(repository, logger)
+	productHandler.Register(router)
 
-	for _, product := range all {
-		logger.Infof("%v", product)
-	}
+	//test Create new product
+	//newProd := product2.Product{
+	//	Name:  "помидор",
+	//	Price: 24,
+	//	Count: 3,
+	//}
+	//err = repository.Create(context.TODO(), &newProd)
+	//if err != nil {
+	//	logger.Fatal(err)
+	//}
+	//logger.Info("%v", newProd)
+
+	//test FindOne
+	//product, err := repository.FindOne(context.TODO(), "5")
+	//if err != nil {
+	//	logger.Fatal(err)
+	//}
+	//logger.Info("%v", product)
 
 	//connStr := "host=0.0.0.0 port=5432 user=postgres password=postgres dbname=postgres sslmode=disable"
 	//db, err := sql.Open("postgres", connStr)
@@ -47,10 +61,10 @@ func main() {
 	//	panic(err)
 	//}
 	//defer db.Close()
-
-	logger.Info("register handler")
-	handler := user.NewHandler(logger)
-	handler.Register(router)
+	//
+	//logger.Info("register handler")
+	//handler := user.NewHandler(logger)
+	//handler.Register(router)
 
 	start(router, cfg)
 }
