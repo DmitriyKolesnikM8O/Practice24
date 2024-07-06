@@ -25,3 +25,17 @@ type MonthSales struct {
 	Counts int `json:"month_counts"`
 	Sales  int `json:"month_sales"`
 }
+
+type CreateProduct struct {
+	Name  string `json:"name"`
+	Price int    `json:"price"`
+	Count int    `json:"count"`
+	Date  string `json:"date"`
+}
+
+type UpdateProduct struct {
+	ID    int    `json:"id"`
+	Name  string `json:"name"`
+	Price int    `json:"price"`
+	Count int    `json:"count"`
+}

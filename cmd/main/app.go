@@ -18,6 +18,17 @@ import (
 	"time"
 )
 
+// @Title Generate Report API
+// @version 1.0
+// @description API service to generate report
+
+// @host 0.0.0.0:1234
+// @BasePath /
+
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
+
 func main() {
 	logger := logging.GetLogger()
 	logger.Info("create router")

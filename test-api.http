@@ -40,11 +40,20 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImV4YW1wbGVV
 //create report INVALID JWT TOCKEN
 GET http://127.0.0.1:1234/report
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImV4YW1wbGVVc2VyIiwiZXhwIjoxNzIwMjgwNTE5fQ.JLplBfUzTE6NP-8vST5QlhqRZftCfzWqoi2Ftn3wMsI
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNzIwMzM4NzM4fQ.kVxkLy0JmLQCwLxN9MUnYsZAclhfz-MBxCxip93F4xM
 
 ###
 //Create JWT token
 GET http://127.0.0.1:1234/auth
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin"
+}
+
+###
+POST http://127.0.0.1:1234/auth
 Content-Type: application/json
 
 {

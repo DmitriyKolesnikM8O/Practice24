@@ -6,7 +6,6 @@ import (
 	"github.com/DmitriyKolesnikM8O/Practice24/internal/product"
 	"github.com/DmitriyKolesnikM8O/Practice24/pkg/client/postgres"
 	"github.com/DmitriyKolesnikM8O/Practice24/pkg/logging"
-	"github.com/jackc/pgconn"
 	"strings"
 )
 
@@ -20,7 +19,7 @@ func formatQuery(q string) string {
 }
 
 // реализация всех методов интерфейса
-func (r *repository) Create(ctx context.Context, product *product.Product) (ID int, err error) {
+func (r *repository) Create(ctx context.Context, product *product.CreateProduct) (err error) {
 	q := `
 			INSERT INTO product 
 			    (name, price, count, date) 
@@ -29,16 +28,16 @@ func (r *repository) Create(ctx context.Context, product *product.Product) (ID i
 			RETURNING id
 	`
 	r.logger.Tracef(fmt.Sprintf("SQL Query: %s", formatQuery(q)))
-	if err := r.client.QueryRow(ctx, q, product.Name, product.Price, product.Count, product.Date).Scan(&product.ID); err != nil {
-		if pgErr, ok := err.(*pgconn.PgError); ok {
-			newErr := fmt.Errorf(fmt.Sprintf("SQL Error: %s, Details: %s, Where: %s, Code: %s",
-				pgErr.Message, pgErr.Detail, pgErr.Where, pgErr.Code))
-			r.logger.Error(newErr)
-			return -1, newErr
-		}
-		return -1, err
+	if err := r.client.QueryRow(ctx, q, product.Name, product.Price, product.Count, product.Date); err != nil {
+		//if pgErr, ok := err.(*pgconn.PgError); ok {
+		//	newErr := fmt.Errorf(fmt.Sprintf("SQL Error: %s, Details: %s, Where: %s, Code: %s",
+		//		pgErr.Message, pgErr.Detail, pgErr.Where, pgErr.Code))
+		//	r.logger.Error(newErr)
+		//	return newErr
+		//}
+		return nil
 	}
-	return product.ID, nil
+	return nil
 }
 
 func (r *repository) FindAll(ctx context.Context) (p []product.Product, err error) {
@@ -99,7 +98,7 @@ func (r *repository) FindOne(ctx context.Context, id string) (product.Product, e
 	return prod, nil
 }
 
-func (r *repository) Update(ctx context.Context, product product.Product) error {
+func (r *repository) Update(ctx context.Context, product product.UpdateProduct) error {
 	q := `
 			UPDATE 
 			    public.product 

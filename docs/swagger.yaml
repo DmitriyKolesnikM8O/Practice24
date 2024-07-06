@@ -1,0 +1,187 @@
+basePath: /
+definitions:
+  github_com_DmitriyKolesnikM8O_Practice24_internal_auth.User:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  internal_product.CreateProduct:
+    properties:
+      count:
+        type: integer
+      date:
+        type: string
+      name:
+        type: string
+      price:
+        type: integer
+    type: object
+  internal_product.UpdateProduct:
+    properties:
+      count:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+      price:
+        type: integer
+    type: object
+host: 0.0.0.0:1234
+info:
+  contact: {}
+  description: API service to generate report
+  title: Generate Report API
+  version: "1.0"
+paths:
+  /auth:
+    post:
+      consumes:
+      - application/json
+      description: auth by username and password
+      operationId: auth
+      parameters:
+      - description: Username and password
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_DmitriyKolesnikM8O_Practice24_internal_auth.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+      summary: Auth
+      tags:
+      - auth
+  /delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete product by ID
+      operationId: delete-product
+      parameters:
+      - description: Product id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+      security:
+      - ApiKeyAuth: []
+      summary: DeleteProduct
+      tags:
+      - products
+  /products:
+    get:
+      description: all products from table
+      operationId: get-product-by-id
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+      summary: GetProducts
+      tags:
+      - products
+    post:
+      consumes:
+      - application/json
+      description: new product in table
+      operationId: create
+      parameters:
+      - description: Product information
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/internal_product.CreateProduct'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+      security:
+      - ApiKeyAuth: []
+      summary: Create Product
+      tags:
+      - products
+    put:
+      consumes:
+      - application/json
+      description: update product by ID
+      operationId: update-product
+      parameters:
+      - description: Product information
+        in: body
+        name: information
+        required: true
+        schema:
+          $ref: '#/definitions/internal_product.UpdateProduct'
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+      security:
+      - ApiKeyAuth: []
+      summary: UodateProductByID
+      tags:
+      - products
+  /products/{id}:
+    get:
+      consumes:
+      - application/json
+      description: one product from table by ID
+      operationId: get-product
+      parameters:
+      - description: Product id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+      summary: GetProductByID
+      tags:
+      - products
+  /report:
+    get:
+      consumes:
+      - application/json
+      description: Create report from table
+      operationId: report
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+      security:
+      - ApiKeyAuth: []
+      summary: Create Report
+      tags:
+      - products
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
