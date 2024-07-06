@@ -36,36 +36,6 @@ func main() {
 	productHandler := product2.NewHandler(repository, logger)
 	productHandler.Register(router)
 
-	//test Create new product
-	//newProd := product2.Product{
-	//	Name:  "помидор",
-	//	Price: 24,
-	//	Count: 3,
-	//}
-	//err = repository.Create(context.TODO(), &newProd)
-	//if err != nil {
-	//	logger.Fatal(err)
-	//}
-	//logger.Info("%v", newProd)
-
-	//test FindOne
-	//product, err := repository.FindOne(context.TODO(), "5")
-	//if err != nil {
-	//	logger.Fatal(err)
-	//}
-	//logger.Info("%v", product)
-
-	//connStr := "host=0.0.0.0 port=5432 user=postgres password=postgres dbname=postgres sslmode=disable"
-	//db, err := sql.Open("postgres", connStr)
-	//if err != nil {
-	//	panic(err)
-	//}
-	//defer db.Close()
-	//
-	//logger.Info("register handler")
-	//handler := user.NewHandler(logger)
-	//handler.Register(router)
-
 	start(router, cfg)
 }
 

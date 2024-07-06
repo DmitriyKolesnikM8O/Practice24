@@ -13,7 +13,13 @@ require (
 
 require (
 	github.com/BurntSushi/toml v1.4.0 // indirect
+	github.com/cespare/xxhash/v2 v2.1.2 // indirect
+	github.com/coocood/freecache v1.2.4 // indirect
+	github.com/cristalhq/jwt/v3 v3.1.0 // indirect
+	github.com/cristalhq/jwt/v5 v5.4.0 // indirect
+	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
+	github.com/google/uuid v1.6.0 // indirect
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
 	github.com/jackc/pgconn v1.14.3 // indirect
 	github.com/jackc/pgio v1.0.0 // indirect

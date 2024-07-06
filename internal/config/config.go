@@ -7,9 +7,14 @@ import (
 )
 
 type Config struct {
-	IsDebug *bool         `yaml:"is_debug" env-required:"true"`
-	Listen  ListenConfig  `yaml:"listen"`
-	Storage StorageConfig `yaml:"storage"`
+	IsDebug   *bool         `yaml:"is_debug" env-required:"true"`
+	Listen    ListenConfig  `yaml:"listen"`
+	Storage   StorageConfig `yaml:"storage"`
+	SecretKey JwtConfig     `yaml:"jwt"`
+}
+
+type JwtConfig struct {
+	Secret string `yaml:"secret"`
 }
 
 type ListenConfig struct {

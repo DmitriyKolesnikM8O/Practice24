@@ -28,7 +28,7 @@ func (r *repository) Create(ctx context.Context, product *product.Product) (ID i
 			    ($1, $2, $3, $4) 
 			RETURNING id
 	`
-
+	r.logger.Tracef(fmt.Sprintf("SQL Query: %s", formatQuery(q)))
 	if err := r.client.QueryRow(ctx, q, product.Name, product.Price, product.Count, product.Date).Scan(&product.ID); err != nil {
 		if pgErr, ok := err.(*pgconn.PgError); ok {
 			newErr := fmt.Errorf(fmt.Sprintf("SQL Error: %s, Details: %s, Where: %s, Code: %s",
@@ -41,9 +41,13 @@ func (r *repository) Create(ctx context.Context, product *product.Product) (ID i
 	return product.ID, nil
 }
 
-// TODO Maybe change to CreateReport OR change FindOne to CreateReport?????
 func (r *repository) FindAll(ctx context.Context) (p []product.Product, err error) {
-	q := `SELECT id, name, price, count, date FROM public.product`
+	q := `
+			SELECT 
+				id, name, price, count, date 
+			FROM 
+				public.product
+	`
 
 	r.logger.Tracef(fmt.Sprintf("SQL Query: %s", formatQuery(q)))
 	rows, err := r.client.Query(ctx, q)
@@ -76,7 +80,13 @@ func (r *repository) FindAll(ctx context.Context) (p []product.Product, err erro
 }
 
 func (r *repository) FindOne(ctx context.Context, id string) (product.Product, error) {
-	q := `SELECT id, name, price, count, date FROM public.product WHERE id = $1`
+	q := `
+			SELECT 
+				id, name, price, count, date 
+			FROM 
+				public.product 
+			WHERE id = $1
+	`
 
 	r.logger.Tracef(fmt.Sprintf("SQL Query: %s", formatQuery(q)))
 
@@ -90,7 +100,13 @@ func (r *repository) FindOne(ctx context.Context, id string) (product.Product, e
 }
 
 func (r *repository) Update(ctx context.Context, product product.Product) error {
-	q := `UPDATE public.product SET name = $2, price = $3, count = $4 WHERE id = $1`
+	q := `
+			UPDATE 
+			    public.product 
+			SET 
+			    name = $2, price = $3, count = $4 
+			WHERE id = $1
+	`
 
 	r.logger.Tracef(fmt.Sprintf("SQL Query: %s", formatQuery(q)))
 	_, err := r.client.Exec(ctx, q, product.ID, product.Name, product.Price, product.Count)
@@ -101,7 +117,18 @@ func (r *repository) Update(ctx context.Context, product product.Product) error 
 }
 
 func (r *repository) FindAllForReport(ctx context.Context) (rep []product.Report, res product.MonthSales, err error) {
-	q := `SELECT name, SUM(price) as total_price, SUM(count) as total_count, SUM(price * product.count) as general_sale, date FROM public.product WHERE date >= CURRENT_DATE - INTERVAL '1 month' GROUP BY name, date ORDER BY date`
+	q := `
+			SELECT 
+				name, SUM(price) as total_price, SUM(count) as total_count, SUM(price * product.count) as general_sale, date 
+			FROM 
+				public.product 
+			WHERE 
+				date >= CURRENT_DATE - INTERVAL '1 month' 
+			GROUP BY 
+				name, date 
+			ORDER BY 
+				date
+	`
 
 	var resSales product.MonthSales
 	r.logger.Tracef(fmt.Sprintf("SQL Query: %s", formatQuery(q)))
@@ -135,8 +162,22 @@ func (r *repository) FindAllForReport(ctx context.Context) (rep []product.Report
 }
 
 func (r *repository) Delete(ctx context.Context, id string) error {
-	//TODO implement me
-	panic("implement me")
+	q := `
+			DELETE FROM 
+			    public.product 
+			WHERE 
+			    id = $1
+	`
+
+	r.logger.Tracef(fmt.Sprintf("SQL Query: %s", formatQuery(q)))
+
+	_, err := r.client.Exec(ctx, q, id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+
 }
 
 func NewRepository(client postgresql.Client, logger *logging.Logger) product.Repository {
