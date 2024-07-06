@@ -178,27 +178,27 @@ func (h *handler) UpdateByID(w http.ResponseWriter, r *http.Request) error {
 // @Failure 400
 // @Router /report [get]
 func (h *handler) CreateReport(w http.ResponseWriter, r *http.Request) error {
-	all, sales, err := h.repository.FindAllForReport(context.TODO())
+
+	salesProducts, sales, err := h.repository.FindAllForReport(context.TODO())
+	response := CombinedResponse{
+		FirstType:  &salesProducts,
+		SecondType: &sales,
+	}
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return err
 	}
-	marshal, err := json.Marshal(all)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		h.logger.Error("Failed to marshal products")
-		return err
-	}
 
-	marshalSales, err := json.Marshal(sales)
+	marshalSales, err := json.Marshal(response)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		h.logger.Error("Failed to marshal result sales")
 		return err
 	}
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	w.Write(marshal)
 	w.Write(marshalSales)
+	//w.Write(marshal)
 
 	return nil
 }
@@ -226,6 +226,7 @@ func (h *handler) Auth(w http.ResponseWriter, r *http.Request) error {
 	if u.Username != "admin" || u.Password != "admin" {
 		h.logger.Error("Invalid username or password")
 		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("Invalid username or password"))
 		return nil
 	}
 

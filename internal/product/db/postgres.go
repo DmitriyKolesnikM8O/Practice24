@@ -29,12 +29,7 @@ func (r *repository) Create(ctx context.Context, product *product.CreateProduct)
 	`
 	r.logger.Tracef(fmt.Sprintf("SQL Query: %s", formatQuery(q)))
 	if err := r.client.QueryRow(ctx, q, product.Name, product.Price, product.Count, product.Date); err != nil {
-		//if pgErr, ok := err.(*pgconn.PgError); ok {
-		//	newErr := fmt.Errorf(fmt.Sprintf("SQL Error: %s, Details: %s, Where: %s, Code: %s",
-		//		pgErr.Message, pgErr.Detail, pgErr.Where, pgErr.Code))
-		//	r.logger.Error(newErr)
-		//	return newErr
-		//}
+
 		return nil
 	}
 	return nil
@@ -115,16 +110,16 @@ func (r *repository) Update(ctx context.Context, product product.UpdateProduct) 
 	return nil
 }
 
-func (r *repository) FindAllForReport(ctx context.Context) (rep []product.Report, res product.MonthSales, err error) {
+func (r *repository) FindAllForReport(ctx context.Context) (rep []product.Product, res product.MonthSales, err error) {
 	q := `
 			SELECT 
-				name, SUM(price) as total_price, SUM(count) as total_count, SUM(price * product.count) as general_sale, date 
+				id, name, price, count, date
 			FROM 
 				public.product 
 			WHERE 
 				date >= CURRENT_DATE - INTERVAL '1 month' 
 			GROUP BY 
-				name, date 
+				id, name, price, count, date
 			ORDER BY 
 				date
 	`
@@ -136,16 +131,16 @@ func (r *repository) FindAllForReport(ctx context.Context) (rep []product.Report
 		return nil, resSales, err
 	}
 	//массив для всех данных
-	products := make([]product.Report, 0)
+	products := make([]product.Product, 0)
 
 	//идем по выдаче
 	for rows.Next() {
-		var prod product.Report
+		var prod product.Product
 
 		//записываем в переменные структуры
-		err := rows.Scan(&prod.Name, &prod.TotalPrice, &prod.TotalCount, &prod.GeneralSale, &prod.Date)
-		resSales.Sales += prod.GeneralSale
-		resSales.Counts += prod.TotalCount
+		err := rows.Scan(&prod.ID, &prod.Name, &prod.Price, &prod.Count, &prod.Date)
+		resSales.Sales += prod.Count * prod.Price
+		resSales.Counts += prod.Count
 		if err != nil {
 			return nil, resSales, err
 		}

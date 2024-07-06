@@ -13,14 +13,6 @@ type Product struct {
 	Date  pgtype.Date `json:"date"`
 }
 
-type Report struct {
-	Name        string      `json:"name"`
-	TotalPrice  int         `json:"total_price"`
-	TotalCount  int         `json:"total_count"`
-	GeneralSale int         `json:"general_sale"`
-	Date        pgtype.Date `json:"date"`
-}
-
 type MonthSales struct {
 	Counts int `json:"month_counts"`
 	Sales  int `json:"month_sales"`
@@ -38,4 +30,9 @@ type UpdateProduct struct {
 	Name  string `json:"name"`
 	Price int    `json:"price"`
 	Count int    `json:"count"`
+}
+
+type CombinedResponse struct {
+	FirstType  *[]Product  `json:"all_sales_products,omitempty"`
+	SecondType *MonthSales `json:"general_statistics,omitempty"`
 }
