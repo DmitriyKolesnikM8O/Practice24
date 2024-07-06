@@ -24,6 +24,7 @@ func Middleware(h appHandler) http.HandlerFunc {
 				err = err.(*AppError)
 				w.WriteHeader(http.StatusBadRequest)
 				w.Write(appErr.Marshal())
+
 				return
 			}
 

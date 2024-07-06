@@ -118,7 +118,7 @@ const docTemplate = `{
                 "tags": [
                     "products"
                 ],
-                "summary": "UodateProductByID",
+                "summary": "UpdateProductByID",
                 "operationId": "update-product",
                 "parameters": [
                     {

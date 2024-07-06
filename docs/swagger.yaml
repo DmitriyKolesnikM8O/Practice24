@@ -138,7 +138,7 @@ paths:
           description: Bad Request
       security:
       - ApiKeyAuth: []
-      summary: UodateProductByID
+      summary: UpdateProductByID
       tags:
       - products
   /products/{id}:

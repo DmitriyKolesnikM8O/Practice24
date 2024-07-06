@@ -1,10 +1,9 @@
-package product
+package model
 
 import (
 	"github.com/jackc/pgtype"
 )
 
-// New table
 type Product struct {
 	ID    int         `json:"id"`
 	Name  string      `json:"name"`

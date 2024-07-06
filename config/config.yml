@@ -1,5 +1,4 @@
 ---
-
 is_debug: true
 listen:
   type: port
@@ -13,6 +12,7 @@ storage:
   password: postgres
 jwt:
   secret: super_secret_key
+
 #mongodb:
 #  host: 0.0.0.0
 #  port: 27017
