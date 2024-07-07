@@ -36,7 +36,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_DmitriyKolesnikM8O_Practice24_internal_auth.User"
+                            "$ref": "#/definitions/github_com_DmitriyKolesnikM8O_Practice24_internal_repository_auth.UserLogin"
                         }
                     }
                 ],
@@ -127,7 +127,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_product.UpdateProduct"
+                            "$ref": "#/definitions/github_com_DmitriyKolesnikM8O_Practice24_internal_repository_product_model.UpdateProduct"
                         }
                     }
                 ],
@@ -165,7 +165,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_product.CreateProduct"
+                            "$ref": "#/definitions/github_com_DmitriyKolesnikM8O_Practice24_internal_repository_product_model.CreateProduct"
                         }
                     }
                 ],
@@ -209,6 +209,41 @@ const docTemplate = `{
                 }
             }
         },
+        "/register": {
+            "post": {
+                "description": "new user in table",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "register User",
+                "operationId": "register",
+                "parameters": [
+                    {
+                        "description": "Product information",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_DmitriyKolesnikM8O_Practice24_internal_repository_auth.UserRegister"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
         "/report": {
             "get": {
                 "security": [
@@ -240,7 +275,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "github_com_DmitriyKolesnikM8O_Practice24_internal_auth.User": {
+        "github_com_DmitriyKolesnikM8O_Practice24_internal_repository_auth.UserLogin": {
             "type": "object",
             "properties": {
                 "password": {
@@ -251,7 +286,18 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_product.CreateProduct": {
+        "github_com_DmitriyKolesnikM8O_Practice24_internal_repository_auth.UserRegister": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_DmitriyKolesnikM8O_Practice24_internal_repository_product_model.CreateProduct": {
             "type": "object",
             "properties": {
                 "count": {
@@ -268,7 +314,7 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_product.UpdateProduct": {
+        "github_com_DmitriyKolesnikM8O_Practice24_internal_repository_product_model.UpdateProduct": {
             "type": "object",
             "properties": {
                 "count": {
@@ -301,8 +347,8 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "0.0.0.0:1234",
 	BasePath:         "/",
 	Schemes:          []string{},
-	Title:            "Generate Report API",
-	Description:      "API service to generate report",
+	Title:            "Generating Report API",
+	Description:      "API service to generate report based on monthly sales",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

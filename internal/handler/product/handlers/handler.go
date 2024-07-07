@@ -18,7 +18,6 @@ type handler struct {
 	repository repository.Repository
 }
 
-// NewHandler создаем структуру, но возвращаем интерфейс
 func NewHandler(repository repository.Repository, logger *logging.Logger) Handler.Handler {
 	return &handler{
 		repository: repository,
@@ -33,8 +32,7 @@ func (h *handler) Register(router *httprouter.Router) {
 	router.HandlerFunc(http.MethodPut, url.ProductsURL, jwt.JWTMiddleware(apperror.Middleware(h.UpdateByID)))
 	router.HandlerFunc(http.MethodGet, url.ReportURL, jwt.JWTMiddleware(apperror.Middleware(h.CreateReport)))
 	router.HandlerFunc(http.MethodPost, url.AuthURL, apperror.Middleware(h.Auth))
-	router.HandlerFunc(http.MethodDelete, url.DeleteUrl, jwt.JWTMiddleware(apperror.Middleware(h.DeleteProduct)))
-	router.HandlerFunc(http.MethodGet, "/swagger/*any", httpSwagger.Handler(
-		httpSwagger.URL("http://0.0.0.0:1234/swagger/doc.json"), //The url pointing to API definition
-	))
+	router.HandlerFunc(http.MethodDelete, url.DeleteURL, jwt.JWTMiddleware(apperror.Middleware(h.DeleteProduct)))
+	router.HandlerFunc(http.MethodPost, url.RegisterURL, apperror.Middleware(h.UserRegister))
+	router.HandlerFunc(http.MethodGet, "/swagger/*any", httpSwagger.Handler(httpSwagger.URL(url.SwaggerURL)))
 }

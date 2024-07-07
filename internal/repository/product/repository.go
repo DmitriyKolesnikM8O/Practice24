@@ -4,8 +4,10 @@ import (
 	"context"
 	"fmt"
 	repository2 "github.com/DmitriyKolesnikM8O/Practice24/internal/repository"
+	"github.com/DmitriyKolesnikM8O/Practice24/internal/repository/auth"
 	"github.com/DmitriyKolesnikM8O/Practice24/internal/repository/product/model"
 	"github.com/DmitriyKolesnikM8O/Practice24/internal/repository/product/requests"
+
 	"github.com/DmitriyKolesnikM8O/Practice24/pkg/client/postgres"
 	"github.com/DmitriyKolesnikM8O/Practice24/pkg/logging"
 	"github.com/jackc/pgconn"
@@ -122,4 +124,40 @@ func (r *repository) Delete(ctx context.Context, id string) error {
 	}
 
 	return nil
+}
+
+func (r *repository) CreateUser(ctx context.Context, user *auth.User) error {
+	r.logger.Tracef(fmt.Sprintf("SQL Query: %s", requests.RequestCreateUser))
+	err := r.client.QueryRow(ctx, requests.RequestCreateUser, user.Username, user.Password).Scan(user.ID)
+	if err != nil {
+		if pgErr, ok := err.(*pgconn.PgError); ok {
+			newErr := fmt.Errorf("SQL error: %s", pgErr.Message)
+			return newErr
+		}
+	}
+
+	return nil
+}
+
+func (r *repository) FindOneOnUsersTable(ctx context.Context, name string) (username string, err error) {
+	r.logger.Tracef(fmt.Sprintf("SQL Query: %s", formatQuery(requests.RequestFindOneFromUser)))
+	var nameUser string
+	err = r.client.QueryRow(ctx, requests.RequestFindOneFromUser, name).Scan(&nameUser)
+	if err != nil {
+		return "", err
+	}
+
+	return nameUser, nil
+}
+
+func (r *repository) FindOneUser(ctx context.Context, username string) (auth.User, error) {
+	r.logger.Tracef(fmt.Sprintf("SQL Query: %s", formatQuery(requests.RequestFindOneUser)))
+	var OneUser auth.User
+
+	err := r.client.QueryRow(ctx, requests.RequestFindOneUser, username).Scan(&OneUser.ID, &OneUser.Username, &OneUser.Password)
+	if err != nil {
+		return auth.User{}, err
+	}
+
+	return OneUser, nil
 }

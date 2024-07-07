@@ -51,4 +51,28 @@ var (
 			WHERE 
 			    id = $1
 	`
+
+	RequestCreateUser = `
+			INSERT INTO users
+			    (name, password) 
+			VALUES 
+			    ($1, $2) 
+			RETURNING id
+	`
+
+	RequestFindOneFromUser = `
+			SELECT 
+				name 
+			FROM 
+				public.users 
+			WHERE name = $1
+	`
+
+	RequestFindOneUser = `
+			SELECT 
+				id, name, password 
+			FROM 
+				public.users 
+			WHERE name = $1
+	`
 )

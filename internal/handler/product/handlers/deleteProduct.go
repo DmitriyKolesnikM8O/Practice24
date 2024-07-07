@@ -25,7 +25,15 @@ func (h *handler) DeleteProduct(w http.ResponseWriter, r *http.Request) error {
 		h.logger.Error("missing arguments: id")
 		return nil
 	}
-	err := h.repository.Delete(context.TODO(), id)
+
+	productFromTable, _ := h.repository.FindOne(context.Background(), id)
+	if productFromTable.Name == "" {
+		w.WriteHeader(http.StatusNotFound)
+		h.logger.Error("Product not found")
+		return nil
+	}
+
+	err := h.repository.Delete(context.Background(), id)
 	if err != nil {
 		h.logger.Error("Failed to delete product")
 		w.WriteHeader(http.StatusInternalServerError)
@@ -34,5 +42,6 @@ func (h *handler) DeleteProduct(w http.ResponseWriter, r *http.Request) error {
 	}
 
 	w.WriteHeader(http.StatusOK)
+
 	return nil
 }

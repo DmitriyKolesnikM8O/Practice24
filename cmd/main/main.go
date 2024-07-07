@@ -22,7 +22,6 @@ import (
 // @securityDefinitions.apikey ApiKeyAuth
 // @in header
 // @name Authorization
-
 func main() {
 	logger := logging.GetLogger()
 

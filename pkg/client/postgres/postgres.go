@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/DmitriyKolesnikM8O/Practice24/config/config"
-	"github.com/DmitriyKolesnikM8O/Practice24/pkg/client/utils"
+	"github.com/DmitriyKolesnikM8O/Practice24/pkg/client/postgres/utils"
 	"github.com/DmitriyKolesnikM8O/Practice24/pkg/logging"
 	"github.com/jackc/pgconn"
 	"github.com/jackc/pgx/v4"
@@ -25,7 +25,6 @@ func NewClient(ctx context.Context, maxAttempts int, sc config.StorageConfig) (p
 	err = repeatable.DoWithTries(func() error {
 		ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 		defer cancel()
-
 		pool, err = pgxpool.Connect(ctx, dsn)
 		if err != nil {
 			return err
@@ -33,7 +32,6 @@ func NewClient(ctx context.Context, maxAttempts int, sc config.StorageConfig) (p
 
 		return nil
 	}, maxAttempts, 5*time.Second)
-
 	if err != nil {
 		logger.Fatal("error do with tries postgresql")
 	}

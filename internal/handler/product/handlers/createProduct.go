@@ -14,7 +14,7 @@ import (
 // @ID create
 // @Accept json
 // @Produce json
-// @Param product body CreateProduct true "Product information"
+// @Param product body model.CreateProduct true "Product information"
 // @Success 200
 // @Failure 400
 // @Router /products [post]
@@ -26,11 +26,12 @@ func (h *handler) CreateProduct(w http.ResponseWriter, r *http.Request) error {
 		h.logger.Error("Failed to unmarshal product")
 	}
 
-	err := h.repository.Create(context.TODO(), &dto)
+	err := h.repository.Create(context.Background(), &dto)
 	if err != nil {
 		return err
 	}
-	//w.Header().Set("ID number", fmt.Sprintf("%s", id))
+
 	w.WriteHeader(http.StatusCreated)
+
 	return nil
 }

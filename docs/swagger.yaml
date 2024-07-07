@@ -1,13 +1,20 @@
 basePath: /
 definitions:
-  github_com_DmitriyKolesnikM8O_Practice24_internal_auth.User:
+  github_com_DmitriyKolesnikM8O_Practice24_internal_repository_auth.UserLogin:
     properties:
       password:
         type: string
       username:
         type: string
     type: object
-  internal_product.CreateProduct:
+  github_com_DmitriyKolesnikM8O_Practice24_internal_repository_auth.UserRegister:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  github_com_DmitriyKolesnikM8O_Practice24_internal_repository_product_model.CreateProduct:
     properties:
       count:
         type: integer
@@ -18,7 +25,7 @@ definitions:
       price:
         type: integer
     type: object
-  internal_product.UpdateProduct:
+  github_com_DmitriyKolesnikM8O_Practice24_internal_repository_product_model.UpdateProduct:
     properties:
       count:
         type: integer
@@ -32,8 +39,8 @@ definitions:
 host: 0.0.0.0:1234
 info:
   contact: {}
-  description: API service to generate report
-  title: Generate Report API
+  description: API service to generate report based on monthly sales
+  title: Generating Report API
   version: "1.0"
 paths:
   /auth:
@@ -48,7 +55,7 @@ paths:
         name: user
         required: true
         schema:
-          $ref: '#/definitions/github_com_DmitriyKolesnikM8O_Practice24_internal_auth.User'
+          $ref: '#/definitions/github_com_DmitriyKolesnikM8O_Practice24_internal_repository_auth.UserLogin'
       produces:
       - application/json
       responses:
@@ -106,7 +113,7 @@ paths:
         name: product
         required: true
         schema:
-          $ref: '#/definitions/internal_product.CreateProduct'
+          $ref: '#/definitions/github_com_DmitriyKolesnikM8O_Practice24_internal_repository_product_model.CreateProduct'
       produces:
       - application/json
       responses:
@@ -130,7 +137,7 @@ paths:
         name: information
         required: true
         schema:
-          $ref: '#/definitions/internal_product.UpdateProduct'
+          $ref: '#/definitions/github_com_DmitriyKolesnikM8O_Practice24_internal_repository_product_model.UpdateProduct'
       responses:
         "200":
           description: OK
@@ -161,6 +168,29 @@ paths:
       summary: GetProductByID
       tags:
       - products
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: new user in table
+      operationId: register
+      parameters:
+      - description: Product information
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_DmitriyKolesnikM8O_Practice24_internal_repository_auth.UserRegister'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+      summary: register User
+      tags:
+      - auth
   /report:
     get:
       consumes:

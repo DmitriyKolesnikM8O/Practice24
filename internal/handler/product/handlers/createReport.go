@@ -18,8 +18,7 @@ import (
 // @Failure 400
 // @Router /report [get]
 func (h *handler) CreateReport(w http.ResponseWriter, r *http.Request) error {
-
-	salesProducts, sales, err := h.repository.FindAllForReport(context.TODO())
+	salesProducts, sales, err := h.repository.FindAllForReport(context.Background())
 	response := model.CombinedResponse{
 		FirstType:  &salesProducts,
 		SecondType: &sales,
@@ -35,10 +34,10 @@ func (h *handler) CreateReport(w http.ResponseWriter, r *http.Request) error {
 		h.logger.Error("Failed to marshal result sales")
 		return err
 	}
+
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(marshalSales)
-	//w.Write(marshal)
 
 	return nil
 }

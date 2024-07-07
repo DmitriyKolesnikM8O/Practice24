@@ -40,7 +40,6 @@ func ValidateJWT(tokenString string) (*MyClaims, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
-
 		return secretKey, nil
 	})
 	if err != nil {
@@ -49,6 +48,7 @@ func ValidateJWT(tokenString string) (*MyClaims, error) {
 	if !token.Valid {
 		return nil, fmt.Errorf("invalid token")
 	}
+
 	return claims, nil
 }
 
@@ -69,7 +69,6 @@ func JWTMiddleware(next http.HandlerFunc) http.HandlerFunc {
 
 		ctx := r.Context()
 		ctx = context.WithValue(ctx, "user", claims.Username)
-
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
