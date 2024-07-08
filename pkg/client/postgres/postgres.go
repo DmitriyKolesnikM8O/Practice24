@@ -3,7 +3,7 @@ package postgresql
 import (
 	"context"
 	"fmt"
-	"github.com/DmitriyKolesnikM8O/Practice24/config/config"
+	"github.com/DmitriyKolesnikM8O/Practice24/internal/config/config"
 	"github.com/DmitriyKolesnikM8O/Practice24/pkg/client/postgres/utils"
 	"github.com/DmitriyKolesnikM8O/Practice24/pkg/logging"
 	"github.com/jackc/pgconn"

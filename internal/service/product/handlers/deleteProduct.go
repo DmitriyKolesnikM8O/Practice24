@@ -16,7 +16,7 @@ import (
 // @Success 200
 // @Failure 400
 // @Router /delete/{id} [delete]
-func (h *handler) DeleteProduct(w http.ResponseWriter, r *http.Request) error {
+func (h *service) DeleteProduct(w http.ResponseWriter, r *http.Request) error {
 	id := r.URL.String()
 	id = strings.TrimPrefix(id, "/delete/")
 

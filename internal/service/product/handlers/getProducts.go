@@ -14,7 +14,7 @@ import (
 // @Success 200
 // @Failure 400
 // @Router /products [get]
-func (h *handler) GetProducts(w http.ResponseWriter, r *http.Request) error {
+func (h *service) GetProducts(w http.ResponseWriter, r *http.Request) error {
 	all, err := h.repository.FindAll(context.Background())
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)

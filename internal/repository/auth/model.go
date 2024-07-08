@@ -1,6 +1,5 @@
 package auth
 
-// TODO HashPassword
 type User struct {
 	ID       int    `json:"id"`
 	Username string `json:"username"`

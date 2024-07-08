@@ -17,7 +17,7 @@ import (
 // @Success 200
 // @Failure 400
 // @Router /report [get]
-func (h *handler) CreateReport(w http.ResponseWriter, r *http.Request) error {
+func (h *service) CreateReport(w http.ResponseWriter, r *http.Request) error {
 	salesProducts, sales, err := h.repository.FindAllForReport(context.Background())
 	response := model.CombinedResponse{
 		FirstType:  &salesProducts,

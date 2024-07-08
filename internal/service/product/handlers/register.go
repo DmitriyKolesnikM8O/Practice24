@@ -19,7 +19,7 @@ import (
 // @Success 200
 // @Failure 400
 // @Router /register [post]
-func (h *handler) UserRegister(w http.ResponseWriter, r *http.Request) error {
+func (h *service) UserRegister(w http.ResponseWriter, r *http.Request) error {
 	var user auth.UserRegister
 	defer r.Body.Close()
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {

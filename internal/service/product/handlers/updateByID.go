@@ -18,7 +18,7 @@ import (
 // @Success 200
 // @Failure 400
 // @Router /products [put]
-func (h *handler) UpdateByID(w http.ResponseWriter, r *http.Request) error {
+func (h *service) UpdateByID(w http.ResponseWriter, r *http.Request) error {
 	var dto model.UpdateProduct
 	defer r.Body.Close()
 	if err := json.NewDecoder(r.Body).Decode(&dto); err != nil {

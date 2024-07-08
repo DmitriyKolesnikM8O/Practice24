@@ -16,7 +16,7 @@ import (
 // @Success 200
 // @Failure 400
 // @Router /products/{id} [get]
-func (h *handler) GetProductByID(w http.ResponseWriter, r *http.Request) error {
+func (h *service) GetProductByID(w http.ResponseWriter, r *http.Request) error {
 	id := r.URL.String()
 	id = strings.TrimPrefix(id, "/products/")
 	if len(id) == 0 {

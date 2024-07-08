@@ -20,7 +20,7 @@ import (
 // @Success 200
 // @Failure 400
 // @Router /auth [post]
-func (h *handler) Auth(w http.ResponseWriter, r *http.Request) error {
+func (h *service) Auth(w http.ResponseWriter, r *http.Request) error {
 	var user auth.UserLogin
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		w.WriteHeader(http.StatusBadRequest)

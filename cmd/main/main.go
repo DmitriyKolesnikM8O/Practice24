@@ -2,10 +2,10 @@ package main
 
 import (
 	"context"
-	"github.com/DmitriyKolesnikM8O/Practice24/config/config"
 	"github.com/DmitriyKolesnikM8O/Practice24/internal/app"
-	product2 "github.com/DmitriyKolesnikM8O/Practice24/internal/handler/product/handlers"
+	"github.com/DmitriyKolesnikM8O/Practice24/internal/config/config"
 	"github.com/DmitriyKolesnikM8O/Practice24/internal/repository/product"
+	product2 "github.com/DmitriyKolesnikM8O/Practice24/internal/service/product/handlers"
 	"github.com/DmitriyKolesnikM8O/Practice24/pkg/client/postgres"
 	"github.com/DmitriyKolesnikM8O/Practice24/pkg/logging"
 	"github.com/julienschmidt/httprouter"
@@ -36,8 +36,8 @@ func main() {
 	}
 
 	repository := product.NewRepository(postgreSQLClient, logger)
-	logger.Info("register product handler")
-	productHandler := product2.NewHandler(repository, logger)
+	logger.Info("register product service")
+	productHandler := product2.NewSerivce(repository, logger)
 	productHandler.Register(router)
 
 	app.Start(router, cfg)

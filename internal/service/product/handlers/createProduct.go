@@ -18,7 +18,7 @@ import (
 // @Success 200
 // @Failure 400
 // @Router /products [post]
-func (h *handler) CreateProduct(w http.ResponseWriter, r *http.Request) error {
+func (h *service) CreateProduct(w http.ResponseWriter, r *http.Request) error {
 	var dto model.CreateProduct
 	defer r.Body.Close()
 	if err := json.NewDecoder(r.Body).Decode(&dto); err != nil {

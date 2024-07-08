@@ -3,7 +3,7 @@ package jwt
 import (
 	"context"
 	"fmt"
-	"github.com/DmitriyKolesnikM8O/Practice24/config/config"
+	"github.com/DmitriyKolesnikM8O/Practice24/internal/config/config"
 	"github.com/golang-jwt/jwt/v4"
 	"net/http"
 	"strings"
