@@ -29,13 +29,14 @@ func (h *service) Auth(w http.ResponseWriter, r *http.Request) error {
 	}
 
 	defer r.Body.Close()
-	username, _ := h.repository.FindOneOnUsersTable(context.Background(), user.Username)
-	if username == "" {
+	username, _ := h.repository.FindOneUser(context.Background(), user.Username)
+	if username.Username == "" {
+		w.WriteHeader(http.StatusNotFound)
 		w.Write([]byte("User not found"))
 		return nil
 	}
 
-	userFromTable, _ := h.repository.FindOneUser(context.Background(), username)
+	userFromTable, _ := h.repository.FindOneUser(context.Background(), username.Username)
 	err := bcrypt.CompareHashAndPassword(userFromTable.Password, []byte(user.Password))
 	if err != nil {
 		w.WriteHeader(400)

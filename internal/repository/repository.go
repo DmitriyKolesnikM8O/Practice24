@@ -14,6 +14,5 @@ type Repository interface {
 	FindAllForReport(ctx context.Context) (rep []model.Product, res model.MonthSales, err error)
 	Delete(ctx context.Context, id string) error
 	CreateUser(ctx context.Context, user *auth.User) (err error)
-	FindOneOnUsersTable(ctx context.Context, name string) (username string, err error)
 	FindOneUser(ctx context.Context, name string) (auth.User, error)
 }

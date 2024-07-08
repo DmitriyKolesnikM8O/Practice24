@@ -60,14 +60,6 @@ var (
 			RETURNING id
 	`
 
-	RequestFindOneFromUser = `
-			SELECT 
-				name 
-			FROM 
-				public.users 
-			WHERE name = $1
-	`
-
 	RequestFindOneUser = `
 			SELECT 
 				id, name, password 
