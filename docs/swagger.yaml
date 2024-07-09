@@ -7,13 +7,6 @@ definitions:
       username:
         type: string
     type: object
-  github_com_DmitriyKolesnikM8O_Practice24_internal_repository_auth.UserRegister:
-    properties:
-      password:
-        type: string
-      username:
-        type: string
-    type: object
   github_com_DmitriyKolesnikM8O_Practice24_internal_repository_product_model.CreateProduct:
     properties:
       count:
@@ -180,7 +173,7 @@ paths:
         name: user
         required: true
         schema:
-          $ref: '#/definitions/github_com_DmitriyKolesnikM8O_Practice24_internal_repository_auth.UserRegister'
+          $ref: '#/definitions/github_com_DmitriyKolesnikM8O_Practice24_internal_repository_auth.UserLogin'
       produces:
       - application/json
       responses:

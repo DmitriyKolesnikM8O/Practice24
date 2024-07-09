@@ -230,7 +230,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_DmitriyKolesnikM8O_Practice24_internal_repository_auth.UserRegister"
+                            "$ref": "#/definitions/github_com_DmitriyKolesnikM8O_Practice24_internal_repository_auth.UserLogin"
                         }
                     }
                 ],
@@ -276,17 +276,6 @@ const docTemplate = `{
     },
     "definitions": {
         "github_com_DmitriyKolesnikM8O_Practice24_internal_repository_auth.UserLogin": {
-            "type": "object",
-            "properties": {
-                "password": {
-                    "type": "string"
-                },
-                "username": {
-                    "type": "string"
-                }
-            }
-        },
-        "github_com_DmitriyKolesnikM8O_Practice24_internal_repository_auth.UserRegister": {
             "type": "object",
             "properties": {
                 "password": {

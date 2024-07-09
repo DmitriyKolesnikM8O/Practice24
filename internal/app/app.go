@@ -1,8 +1,12 @@
 package app
 
 import (
+	"context"
 	"fmt"
 	"github.com/DmitriyKolesnikM8O/Practice24/internal/config/config"
+	"github.com/DmitriyKolesnikM8O/Practice24/internal/repository/product"
+	product2 "github.com/DmitriyKolesnikM8O/Practice24/internal/service/product/handlers"
+	postgresql "github.com/DmitriyKolesnikM8O/Practice24/pkg/client/postgres"
 	"github.com/DmitriyKolesnikM8O/Practice24/pkg/logging"
 	"github.com/julienschmidt/httprouter"
 	"net"
@@ -47,11 +51,22 @@ func Start(router *httprouter.Router, cfg *config.Config) {
 		logger.Fatal(ListenErr)
 	}
 
+	logger.Info("Connect to postgres")
+	postgreSQLClient, err := postgresql.NewClient(context.Background(), 3, cfg.Storage)
+	if err != nil {
+		logger.Fatal(err)
+	}
+
+	repository := product.NewRepository(postgreSQLClient, logger)
+	logger.Info("register product service")
+	productHandler := product2.NewSerivce(repository, logger)
+	productHandler.Register(router)
+
 	server := &http.Server{
 		Handler:      router,
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
-
 	logger.Fatalln(server.Serve(listener))
+
 }
